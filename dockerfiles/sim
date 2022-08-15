@@ -33,6 +33,10 @@ RUN groupadd -r -g 110 render \
  && adduser docker render \
  && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+# create setting directory for ignition gazebo
+RUN mkdir -p /home/docker/.ignition \
+  && chown -R docker:docker /home/docker/.ignition
+
 USER docker
 WORKDIR /home/docker
 

@@ -18,65 +18,65 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-sel
 
 # install px4 dependencies
 RUN sudo apt-get update && sudo apt-get -y --quiet --no-install-recommends install \
-    bzip2 \
-    ca-certificates \
-    ccache \
-    cmake \
-    cppcheck \
-    curl \
-    dirmngr \
-    doxygen \
-    file \
-    g++ \
-    gcc \
-    gdb \
-    git \
-    gnupg \
-    gosu \
-    lcov \
-    libfreetype6-dev \
-    libgtest-dev \
-    libpng-dev \
-    libssl-dev \
-    lsb-release \
-    make \
-    ninja-build \
-    openjdk-8-jdk \
-    openssh-client \
-    pkg-config \
-    rsync \
-    shellcheck \
-    tzdata \
-    unzip \
-    valgrind \
-    wget \
-    xsltproc \
-    zip \
-    xterm \
-    terminator \
-    bash-completion \
-    python3-dev \
-    python3-pip \
-    python3-future \
-    python3-numpy \
-    python3-matplotlib \
-    python3-empy \
-    python3-jinja2 \
-    python3-coverage \
-    python3-argcomplete \
-    python3-cerberus \
-    python3-packaging \
-    python3-serial \
-    python3-six \
-    python3-toml \
-    python3-wheel \
-    python3-requests \
-    python3-psutil \
-    python3-jsonschema \
-    python3-nacl \
-    python3-pkgconfig \
-    python3-setuptools \
-    python3-yaml \
+  bzip2 \
+  ca-certificates \
+  ccache \
+  cmake \
+  cppcheck \
+  curl \
+  dirmngr \
+  doxygen \
+  file \
+  g++ \
+  gcc \
+  gdb \
+  git \
+  gnupg \
+  gosu \
+  lcov \
+  libfreetype6-dev \
+  libgtest-dev \
+  libpng-dev \
+  libssl-dev \
+  lsb-release \
+  make \
+  ninja-build \
+  openjdk-8-jdk \
+  openssh-client \
+  pkg-config \
+  rsync \
+  shellcheck \
+  tzdata \
+  unzip \
+  valgrind \
+  wget \
+  xsltproc \
+  zip \
+  xterm \
+  terminator \
+  bash-completion \
+  python3-dev \
+  python3-pip \
+  python3-future \
+  python3-numpy \
+  python3-matplotlib \
+  python3-empy \
+  python3-jinja2 \
+  python3-coverage \
+  python3-argcomplete \
+  python3-cerberus \
+  python3-packaging \
+  python3-serial \
+  python3-six \
+  python3-toml \
+  python3-wheel \
+  python3-requests \
+  python3-psutil \
+  python3-jsonschema \
+  python3-nacl \
+  python3-pkgconfig \
+  python3-setuptools \
+  python3-yaml \
   && sudo apt-get -y autoremove \
   && sudo apt-get clean autoclean \
   && sudo rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
@@ -121,10 +121,10 @@ RUN git clone https://github.com/eProsima/foonathan_memory_vendor.git --depth 1 
 
 # Fast-RTPS-Gen 1.0.4
 RUN git clone --recursive https://github.com/eProsima/Fast-RTPS-Gen.git --depth 1 -b v1.0.4 /tmp/Fast-RTPS-Gen \
-    && cd /tmp/Fast-RTPS-Gen \
-    && gradle assemble \
-    && sudo /opt/gradle/gradle-6.3-rc-4/bin/gradle install \
-    && sudo rm -rf /tmp/*
+  && cd /tmp/Fast-RTPS-Gen \
+  && gradle assemble \
+  && sudo /opt/gradle/gradle-6.3-rc-4/bin/gradle install \
+  && sudo rm -rf /tmp/*
 
 # Fast-DDS 2.7.0
 RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --depth 1 /tmp/FastDDS-2.7.0 \
@@ -136,10 +136,10 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --d
   && rm -rf /tmp/*
 
 # build px4 autopilot
-COPY  ./.git ./.git
-COPY  ./PX4-Autopilot ./PX4-Autopilot
-COPY  ./px4_scripts/ ./px4_scripts/
-RUN sudo chown -R docker:docker ./PX4-Autopilot .git px4_scripts
-RUN ./px4_scripts/px4_build.sh
+ENV PATH="/home/docker/bin:$PATH"
+COPY --chown=docker:docker ./.git/ ./.git/
+COPY --chown=docker:docker ./px4_scripts/ ./bin/
+COPY --chown=docker:docker ./PX4-Autopilot/ ./PX4-Autopilot
+RUN px4_build.sh
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
