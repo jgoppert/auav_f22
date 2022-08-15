@@ -1,0 +1,80 @@
+networks:
+
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+
+services:
+
+  # gazebo ignition (simulator)
+  sim:
+    container_name: sim
+    hostname: sim
+    image: jgoppert/auav_f22_sim:latest
+    command: ign gazebo -r --render-engine ogre2 /usr/share/mavlink_sitl_ign_gazebo/worlds/iris.world
+    build:
+      dockerfile: sim 
+    environment:
+      - DISPLAY=:1
+      - IGN_GAZEBO_SYSTEM_PLUGIN_PATH=/usr/lib
+      - IGN_GAZEBO_RESOURCE_PATH=/usr/share/mavlink_sitl_ign_gazebo/models
+      - PX4_HOME_LAT=40.41537099446224
+      - PX4_HOME_LON=-86.93289541090424
+      - PX4_HOME_ALT=185
+      - PX4_SIM_SPEED_FACTOR=1.0
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+
+  # px4 (autopilot)
+  px4:
+    container_name: px4
+    hostname: px4
+    image: jgoppert/auav_f22_px4:latest
+    #command: terminator -e "cd PX4-Autopilot/build/px4_sitl_rtps && ./bin/px4 ./etc -s etc/init.d-posix/rcS"
+    command: terminator -e "bash"
+    build:
+      dockerfile: px4
+    environment:
+      - PX4_SIM_HOSTNAME=sim
+      - PX4_ONBOARD_HOSTNAME=onboard
+      - PX4_GCS_HOSTNAME=172.16.238.1
+      - DISPLAY=:1
+      - PX4_SIM_MODEL=iris
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ./PX4-Autopilot:/home/docker/PX4-Autopilot:rw
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
+
+  # onboard computer
+  onboard:
+    container_name: onboard
+    hostname: onboard
+    image: jgoppert/auav_f22_onboard:latest
+    command: terminator -e bash
+    build:
+      dockerfile: onboard
+    environment:
+      - DISPLAY=:1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - $PWD/ws:/home/docker/ws:rw
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.12
+
+#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=4 : 
