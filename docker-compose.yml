@@ -43,8 +43,7 @@ services:
     container_name: px4
     hostname: px4
     image: jgoppert/auav_f22_px4:latest
-    #command: terminator -e "cd PX4-Autopilot/build/px4_sitl_rtps && ./bin/px4 ./etc -s etc/init.d-posix/rcS"
-    command: terminator -e "bash"
+    command: terminator -e "./px4_scripts/px4_build.sh && ./px4_scripts/px4_start.sh"
     build:
       dockerfile: px4
     environment:
@@ -53,9 +52,16 @@ services:
       - PX4_GCS_HOSTNAME=172.16.238.1
       - DISPLAY=:1
       - PX4_SIM_MODEL=iris
+      - BUILD_PX4=y
     volumes:
+      # pass through for X11
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # mount .git readwrite for development
+      - ./.git:/home/docker/.git:rw
+      # mount source readwrite for development
       - ./PX4-Autopilot:/home/docker/PX4-Autopilot:rw
+      # mount scripts directory read only for development
+      - ./px4_scripts/:/home/docker/px4_scripts:ro
     networks:
       app_net:
         ipv4_address: 172.16.238.11

@@ -138,7 +138,8 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --d
 # build px4 autopilot
 COPY  ./.git ./.git
 COPY  ./PX4-Autopilot ./PX4-Autopilot
-RUN sudo chown -R docker:docker ./PX4-Autopilot .git
-RUN cd ./PX4-Autopilot && make px4_sitl_rtps
+COPY  ./px4_scripts/ ./px4_scripts/
+RUN sudo chown -R docker:docker ./PX4-Autopilot .git px4_scripts
+RUN ./px4_scripts/px4_build.sh
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
