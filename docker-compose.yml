@@ -20,7 +20,8 @@ services:
     container_name: sim
     hostname: sim
     image: jgoppert/auav_f22_sim:latest
-    command: ign gazebo -r --render-engine ogre2 /usr/share/mavlink_sitl_ign_gazebo/worlds/iris.world --gui-config /home/docker/.ignition/gazebo/6/gui.config 
+    command: terminator --geometry=800x500+800+0 -e ". ./install/setup.bash; ros2 launch auav_f22_sim sample.launch.py; read -p 'press enter to close'"
+    #command: ign gazebo -r --render-engine ogre2 /usr/share/mavlink_sitl_ign_gazebo/worlds/iris.world --gui-config /home/docker/.ignition/gazebo/6/gui.config 
     build:
       dockerfile: sim/Dockerfile 
     environment:
@@ -36,6 +37,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ignition_config:/home/docker/.ignition
+      - $PWD/sim/ws:/home/docker/ws:rw
     privileged: true
     deploy:
       resources:

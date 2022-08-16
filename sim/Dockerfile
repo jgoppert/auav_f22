@@ -6,6 +6,7 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   cmake \
   build-essential \
   ignition-fortress \
+  ros-foxy-ros-ign-gazebo \
   git \
   mesa-utils \
   libnvidia-gl-515-server \
@@ -14,7 +15,7 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   xterm \
   terminator \
   bash-completion \
-  libcanberra-gtk-module \
+  libcanberra-gtk3-module \
   && apt-get -y autoremove \
 	&& apt-get clean autoclean \
 	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
@@ -39,9 +40,17 @@ RUN mkdir -p /home/docker/.ignition \
   && chown -R docker:docker /home/docker/.ignition
 
 USER docker
-WORKDIR /home/docker
+WORKDIR /home/docker/ws
+
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc \
+  && echo "source /home/docker/ws/install/setup.bash" >> ~/.bashrc
+
+RUN colcon build --symlink-install
 
 RUN mkdir -p /tmp/runtime-docker && chmod 700 /tmp/runtime-docker
 ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
+
+# prevent terminator stderrr messages
+ENV NO_AT_BRIDGE=1
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
