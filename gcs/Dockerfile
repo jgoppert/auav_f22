@@ -13,6 +13,7 @@ RUN apt-get update && apt-get remove modemmanager -y \
   bash-completion \
   libfuse3-3 \
   fuse \
+  libcanberra-gtk-module \
   libpulse-mainloop-glib0 \
   ca-certificates \
   && apt-get -y autoremove \
@@ -36,5 +37,11 @@ RUN wget https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage \
 # this allows qgc to remember settings
 RUN mkdir -p /home/docker/.config/QGroundControl.org \
   && chown -R docker:docker .config
+
+RUN mkdir -p /tmp/runtime-docker && chmod 700 /tmp/runtime-docker
+ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
+
+# prevent terminator stderrr messages
+ENV NO_AT_BRIDGE=1
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :

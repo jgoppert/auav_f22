@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   dh-make \
   terminator \
   bash-completion \
+  libcanberra-gtk3-module \
   ros-foxy-realsense2-camera \
   && apt-get -y autoremove \
 	&& apt-get clean autoclean \
@@ -23,7 +24,7 @@ RUN adduser --disabled-password --gecos '' docker \
  && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER docker
-WORKDIR /home/docker
+WORKDIR /home/docker/ws
 
 # Micro XRCE-DDS Agent (translates messages from autopilot into ROS2 DDS)
 RUN git clone --recursive https://github.com/eProsima/Micro-XRCE-DDS-Agent.git -b v2.2.0 --depth 1 /tmp/dds \
@@ -47,5 +48,16 @@ RUN . /opt/ros/foxy/setup.sh \
   && DEB_BUILD_OPTIONS="nocheck parallel=$(nproc)" fakeroot debian/rules "binary --parallel" 1>/dev/null \
   && cd /tmp/ws/src && sudo dpkg -i *.deb \
   && rm -rf /tmp/*
+
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc \
+  && echo "source /home/docker/ws/install/setup.bash" >> ~/.bashrc
+
+RUN colcon build --symlink-install
+
+RUN mkdir -p /tmp/runtime-docker && chmod 700 /tmp/runtime-docker
+ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
+
+# prevent terminator stderrr messages
+ENV NO_AT_BRIDGE=1
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :

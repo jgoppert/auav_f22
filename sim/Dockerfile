@@ -14,6 +14,7 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   xterm \
   terminator \
   bash-completion \
+  libcanberra-gtk-module \
   && apt-get -y autoremove \
 	&& apt-get clean autoclean \
 	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
@@ -39,5 +40,8 @@ RUN mkdir -p /home/docker/.ignition \
 
 USER docker
 WORKDIR /home/docker
+
+RUN mkdir -p /tmp/runtime-docker && chmod 700 /tmp/runtime-docker
+ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :

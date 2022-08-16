@@ -77,6 +77,7 @@ RUN sudo apt-get update && sudo apt-get -y --quiet --no-install-recommends insta
   python3-pkgconfig \
   python3-setuptools \
   python3-yaml \
+  libcanberra-gtk3-module \
   && sudo apt-get -y autoremove \
   && sudo apt-get clean autoclean \
   && sudo rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
@@ -137,9 +138,14 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --d
 
 # build px4 autopilot
 ENV PATH="/home/docker/bin:$PATH"
-COPY --chown=docker:docker ./.git/ ./.git/
-COPY --chown=docker:docker ./px4_scripts/ ./bin/
-COPY --chown=docker:docker ./PX4-Autopilot/ ./PX4-Autopilot
-RUN px4_build.sh
+# note that px4 is a submodule, so we need to
+# run docker build in parent context to grab .git
+COPY --chown=docker:docker .git .git
+COPY --chown=docker:docker ./px4/bin ./bin
+COPY --chown=docker:docker ./px4/PX4-Autopilot ./px4/PX4-Autopilot
+#RUN px4_build.sh
+
+# prevent terminator stderrr messages
+ENV NO_AT_BRIDGE=1
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :

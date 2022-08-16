@@ -1,5 +1,6 @@
 networks:
 
+  # create a local network
   app_net:
     ipam:
       driver: default
@@ -7,7 +8,9 @@ networks:
         - subnet: "172.16.238.0/24"
 
 volumes:
+    # remembers qgroundcontrol config
     qgroundcontrol_config:
+    # remembers ignition config, downloaded models etc
     ignition_config:
 
 services:
@@ -19,14 +22,16 @@ services:
     image: jgoppert/auav_f22_sim:latest
     command: ign gazebo -r --render-engine ogre2 /usr/share/mavlink_sitl_ign_gazebo/worlds/iris.world --gui-config /home/docker/.ignition/gazebo/6/gui.config 
     build:
-      dockerfile: dockerfiles/sim 
+      dockerfile: sim/Dockerfile 
     environment:
       - DISPLAY=:1
       - IGN_GAZEBO_SYSTEM_PLUGIN_PATH=/usr/lib
       - IGN_GAZEBO_RESOURCE_PATH=/usr/share/mavlink_sitl_ign_gazebo/models
+      # PURT, lat, lon, alt
       - PX4_HOME_LAT=40.41537099446224
       - PX4_HOME_LON=-86.93289541090424
       - PX4_HOME_ALT=185
+      # simulation speed, increase to run faster than real time
       - PX4_SIM_SPEED_FACTOR=1.0
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
@@ -41,32 +46,51 @@ services:
               capabilities: [gpu]
     networks:
       app_net:
-        ipv4_address: 172.16.238.10
+        ipv4_address: 172.16.238.2
+
+  # ground control station
+  gcs:
+    container_name: gcs
+    hostname: gcs
+    image: jgoppert/auav_f22_gcs:latest
+    # run qgc hiding output
+    command: bash -c "./QGroundControl.AppImage 2> /dev/null"
+    build:
+      dockerfile: gcs/Dockerfile
+    privileged: true
+    environment:
+      - DISPLAY=:1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # create a persistant named volume to remember qgc settings
+      - qgroundcontrol_config:/home/docker/.config/QGroundControl.org
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.3
 
   # px4 (autopilot)
   px4:
     container_name: px4
     hostname: px4
     image: jgoppert/auav_f22_px4:latest
-    command: terminator --geometry=800x500+0+500 -e "px4_build.sh && px4_start.sh"
+    command: terminator --geometry=800x500+0+500 -e "px4_build.sh && px4_start.sh; read -p 'press enter to close'"
     build:
-      dockerfile: dockerfiles/px4
+      dockerfile: px4/Dockerfile
     environment:
       - PX4_SIM_HOSTNAME=sim
       - PX4_ONBOARD_HOSTNAME=onboard
-      - PX4_GCS_HOSTNAME=172.16.238.13
+      - PX4_GCS_HOSTNAME= 172.16.238.3
       - DISPLAY=:1
       - PX4_SIM_MODEL=iris
-      - BUILD_PX4=y
     volumes:
       # pass through for X11
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       # mount .git readwrite for development
       - ./.git:/home/docker/.git:rw
       # mount source readwrite for development
-      - ./PX4-Autopilot:/home/docker/PX4-Autopilot:rw
+      - ./px4/PX4-Autopilot:/home/docker/PX4-Autopilot:rw
       # mount scripts directory read only for development
-      - ./px4_scripts/:/home/docker/bin:ro
+      - ./px4/bin:/home/docker/bin:ro
     networks:
       app_net:
         ipv4_address: 172.16.238.11
@@ -76,34 +100,16 @@ services:
     container_name: onboard
     hostname: onboard
     image: jgoppert/auav_f22_onboard:latest
-    command: terminator --geometry=800x500+0+0 -e "MicroXRCEAgent udp4 -p 15555"
+    command: terminator --geometry=800x500+0+0 -e ". ./install/setup.bash; ros2 launch auav_f22 sample.launch.py; read -p 'press enter to close'"
     build:
-      dockerfile: dockerfiles/onboard
+      dockerfile: onboard/Dockerfile
     environment:
       - DISPLAY=:1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      - $PWD/ws:/home/docker/ws:rw
+      - $PWD/onboard/ws:/home/docker/ws:rw
     networks:
       app_net:
         ipv4_address: 172.16.238.12
-
-  # ground control station
-  gcs:
-    container_name: gcs
-    hostname: gcs
-    image: jgoppert/auav_f22_gcs:latest
-    command: ./QGroundControl.AppImage
-    build:
-      dockerfile: dockerfiles/gcs
-    privileged: true
-    environment:
-      - DISPLAY=:1
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      - qgroundcontrol_config:/home/docker/.config/QGroundControl.org
-    networks:
-      app_net:
-        ipv4_address: 172.16.238.13
 
 #  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=4 : 
