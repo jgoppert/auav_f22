@@ -3,6 +3,7 @@ LABEL maintainer="James Goppert <james.goppert@gmail.com>"
 
 # install other dependencies
 RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
+  vim \
   cmake \
   build-essential \
   ignition-fortress \
@@ -17,8 +18,7 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   bash-completion \
   libcanberra-gtk3-module \
   && apt-get -y autoremove \
-	&& apt-get clean autoclean \
-	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+	&& apt-get clean
 
 # px4 simulation gazebo
 RUN . /opt/ros/foxy/setup.sh \

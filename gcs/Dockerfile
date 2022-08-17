@@ -4,6 +4,7 @@ LABEL maintainer="James Goppert <james.goppert@gmail.com>"
 #  install dependencies
 RUN apt-get update && apt-get remove modemmanager -y \
   && apt-get install --no-install-recommends -y \
+  vim \
   gstreamer1.0-plugins-bad \
   gstreamer1.0-libav \
   gstreamer1.0-gl \
@@ -17,8 +18,7 @@ RUN apt-get update && apt-get remove modemmanager -y \
   libpulse-mainloop-glib0 \
   ca-certificates \
   && apt-get -y autoremove \
-	&& apt-get clean autoclean \
-	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+	&& apt-get clean
 
 # setup user
 RUN adduser --disabled-password --gecos '' docker \

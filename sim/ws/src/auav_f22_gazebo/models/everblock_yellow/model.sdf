@@ -17,15 +17,14 @@
             <uri>model://everblock_yellow/meshes/block.dae</uri>
             <scale>0.4572 0.4572 2.1336</scale>
           </mesh>
-	  	</geometry>
+        </geometry>
         <material>
-          <script>
-            <uri>model://everblock_yellow/materials/scripts</uri>
-            <uri>model://everblock_yellow/materials/textures</uri>
-            <name>BlockYellow</name>
-          </script>
+          <ambient>1 0 0 1</ambient>
+          <diffuse>0.8 0.8 0 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
         </material>
       </visual>
     </link>
   </model>
 </sdf>
+<!-- vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : -->

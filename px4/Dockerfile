@@ -1,23 +1,15 @@
 FROM ubuntu:20.04
 LABEL maintainer="James Goppert <james.goppert@gmail.com>"
 
-# setup user
-RUN apt-get update \
- && apt-get install -y sudo apt-utils
-RUN addgroup docker
-RUN adduser --disabled-password --gecos '' docker --ingroup docker --ingroup dialout --shell /bin/bash
-RUN adduser docker sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-USER docker
-WORKDIR /home/docker
-
 # environment
 ENV DEBIAN_FRONTEND=noninteractive 
 ENV TZ=America/New_York
-RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # install px4 dependencies
-RUN sudo apt-get update && sudo apt-get -y --quiet --no-install-recommends install \
+RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
+  apt-utils \
+  vim \
   bzip2 \
   ca-certificates \
   ccache \
@@ -78,35 +70,31 @@ RUN sudo apt-get update && sudo apt-get -y --quiet --no-install-recommends insta
   python3-setuptools \
   python3-yaml \
   libcanberra-gtk3-module \
-  && sudo apt-get -y autoremove \
-  && sudo apt-get clean autoclean \
-  && sudo rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+  && apt-get -y autoremove \
+  && apt-get clean
 
 # gtest
 RUN cp -r /usr/src/googletest/googletest /tmp \
   && cd /tmp/googletest \
   && mkdir build && cd build \
   && cmake .. && make -j$(nproc) \
-  && sudo find . -name \*.a -exec cp {} /usr/lib \; \
+  && find . -name \*.a -exec cp {} /usr/lib \; \
   && rm -rf /tmp/*
 
-# Python 3 dependencies installed by pip
-RUN pip install kconfiglib pyros-genmsg pyulog nunavut --user
-
 # ccache setup
-RUN sudo update-ccache-symlinks
+RUN update-ccache-symlinks
 
 # astyle v3.1
 RUN wget -q https://downloads.sourceforge.net/project/astyle/astyle/astyle%203.1/astyle_3.1_linux.tar.gz -O /tmp/astyle.tar.gz \
   && cd /tmp && tar zxf astyle.tar.gz && cd astyle/src \
-  && make -f ../build/gcc/Makefile -j$(nproc) && sudo cp bin/astyle /usr/local/bin \
+  && make -f ../build/gcc/Makefile -j$(nproc) && cp bin/astyle /usr/local/bin \
   && rm -rf /tmp/*
 
 # Gradle (Required to build Fast-RTPS-Gen)
 RUN wget -q "https://services.gradle.org/distributions/gradle-6.3-rc-4-bin.zip" -O /tmp/gradle-6.3-rc-4-bin.zip \
-  && sudo mkdir /opt/gradle \
+  && mkdir /opt/gradle \
   && cd /tmp \
-  && sudo unzip -d /opt/gradle gradle-6.3-rc-4-bin.zip \
+  && unzip -d /opt/gradle gradle-6.3-rc-4-bin.zip \
   && rm -rf /tmp/*
 
 ENV PATH "/opt/gradle/gradle-6.3-rc-4/bin:$PATH"
@@ -117,15 +105,15 @@ RUN git clone https://github.com/eProsima/foonathan_memory_vendor.git --depth 1 
   && mkdir build && cd build \
   && cmake .. \
   && cmake --build . -j $(nproc) \
-  && sudo make install \
+  && make install \
   && rm -rf /tmp/*
 
 # Fast-RTPS-Gen 1.0.4
 RUN git clone --recursive https://github.com/eProsima/Fast-RTPS-Gen.git --depth 1 -b v1.0.4 /tmp/Fast-RTPS-Gen \
   && cd /tmp/Fast-RTPS-Gen \
   && gradle assemble \
-  && sudo /opt/gradle/gradle-6.3-rc-4/bin/gradle install \
-  && sudo rm -rf /tmp/*
+  && /opt/gradle/gradle-6.3-rc-4/bin/gradle install \
+  && rm -rf /tmp/*
 
 # Fast-DDS 2.7.0
 RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --depth 1 /tmp/FastDDS-2.7.0 \
@@ -133,8 +121,19 @@ RUN git clone --recursive https://github.com/eProsima/Fast-DDS.git -b v2.7.0 --d
   && mkdir build && cd build \
   && cmake -DTHIRDPARTY=ON -DSECURITY=ON .. \
   && cmake --build . -j $(nproc) \
-  && sudo make install \
+  && make install \
   && rm -rf /tmp/*
+
+# setup user
+RUN addgroup docker
+RUN adduser --disabled-password --gecos '' docker --ingroup docker --ingroup dialout --shell /bin/bash
+RUN adduser docker sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+USER docker
+WORKDIR /home/docker
+
+# Python 3 dependencies installed by pip
+RUN pip3 install kconfiglib pyros-genmsg pyulog nunavut --user
 
 # build px4 autopilot
 ENV PATH="/home/docker/bin:$PATH"

@@ -18,13 +18,13 @@
             <scale>0.4572 0.4572 2.1336</scale>
           </mesh>
 	  	</geometry>
-        <material>
-          <script>
-            <uri>model://everblock_black/materials/scripts</uri>
-            <uri>model://everblock_black/materials/textures</uri>
-            <name>BlockBlack</name>
-          </script>
-        </material>
+		<material>
+		  <pbr>
+			<metal>
+			  <albedo_map>block.png</albedo_map>
+			</metal>
+		  </pbr>
+		</material>
       </visual>
     </link>
   </model>
