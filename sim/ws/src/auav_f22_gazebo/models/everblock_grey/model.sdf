@@ -14,16 +14,20 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://everblock_grey/meshes/block.dae</uri>
-            <scale>0.762 0.762 2.1336</scale>
+            <uri>model://everblock_grey/meshes/everblock_grey.dae</uri>
           </mesh>
 	  	</geometry>
         <material>
-          <script>
-            <uri>model://everblock_grey/materials/scripts</uri>
-            <uri>model://everblock_grey/materials/textures</uri>
-            <name>BlockGrey</name>
-          </script>
+          <diffuse>0.05 0.05 0.05 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
+          <pbr>
+            <metal>
+              <!--<albedo_map>model://everblock_grey/meshes/textures/everblock_grey_albedo.png</albedo_map>-->
+              <roughness_map>model://everblock_grey/meshes/textures/everblock_grey_roughness.png</roughness_map>
+              <ambient_occlusion_map>model://everblock_grey/meshes/textures/everblock_grey_ao.png</ambient_occlusion_map>
+              <normal_map>model://everblock_grey/meshes/textures/everblock_grey_normal.png</normal_map>
+            </metal>
+          </pbr>
         </material>
       </visual>
     </link>

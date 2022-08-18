@@ -14,18 +14,24 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://everblock_blue/meshes/block.dae</uri>
-            <scale>0.4572 0.4572 2.1336</scale>
+            <uri>model://everblock_blue/meshes/everblock_blue.dae</uri>
           </mesh>
-	  	</geometry>
+        </geometry>
         <material>
-          <script>
-            <uri>model://everblock_blue/materials/scripts</uri>
-            <uri>model://everblock_blue/materials/textures</uri>
-            <name>BlockBlue</name>
-          </script>
+          <ambient>0 0 0.3 1</ambient>
+          <diffuse>0 0 0.3 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
+          <pbr>
+            <metal>
+              <!--<albedo_map>model://everblock_blue/meshes/textures/everblock_blue_albedo.png</albedo_map>-->
+              <roughness_map>model://everblock_blue/meshes/textures/everblock_blue_roughness.png</roughness_map>
+              <ambient_occlusion_map>model://everblock_blue/meshes/textures/everblock_blue_ao.png</ambient_occlusion_map>
+              <normal_map>model://everblock_blue/meshes/textures/everblock_blue_normal.png</normal_map>
+            </metal>
+          </pbr>
         </material>
       </visual>
     </link>
   </model>
 </sdf>
+<!-- vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : -->

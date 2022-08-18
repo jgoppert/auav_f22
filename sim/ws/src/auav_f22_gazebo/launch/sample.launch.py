@@ -10,7 +10,7 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([get_package_share_directory('ros_ign_gazebo'), '/launch/ign_gazebo.launch.py']),
             launch_arguments={
-                'ign_args': '-v 4 iris.sdf -r --render-engine ogre2 /usr/share/mavlink_sitl_ign_gazebo/worlds/iris.world --gui-config /home/docker/.ignition/gazebo/6/gui.config'
+                'ign_args': '-v 4 iris.sdf -r --render-engine ogre2 trial_1.world --gui-config /home/docker/.ignition/gazebo/6/gui.config'
             }.items(),
         )
     ])

@@ -14,16 +14,21 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://everblock_red/meshes/block.dae</uri>
-            <scale>0.4572 0.4572 2.1336</scale>
+            <uri>model://everblock_red/meshes/everblock_red.dae</uri>
           </mesh>
 	  	</geometry>
         <material>
-          <script>
-            <uri>model://everblock_red/materials/scripts</uri>
-            <uri>model://everblock_red/materials/textures</uri>
-            <name>BlockRed</name>
-          </script>
+          <ambient>0.3 0 0 1</ambient>
+          <diffuse>0.3 0 0 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
+          <pbr>
+            <metal>
+              <!--<albedo_map>model://everblock_red/meshes/textures/everblock_red_albedo.png</albedo_map>-->
+              <roughness_map>model://everblock_red/meshes/textures/everblock_red_roughness.png</roughness_map>
+              <ambient_occlusion_map>model://everblock_red/meshes/textures/everblock_red_ao.png</ambient_occlusion_map>
+              <normal_map>model://everblock_red/meshes/textures/everblock_red_normal.png</normal_map>
+            </metal>
+          </pbr>
         </material>
       </visual>
     </link>

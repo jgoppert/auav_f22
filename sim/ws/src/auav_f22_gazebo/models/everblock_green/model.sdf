@@ -14,18 +14,24 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://everblock_green/meshes/block.dae</uri>
-            <scale>0.4572 0.4572 2.1336</scale>
+            <uri>model://everblock_green/meshes/everblock_green.dae</uri>
           </mesh>
-	  	</geometry>
+        </geometry>
         <material>
-          <script>
-            <uri>model://everblock_green/materials/scripts</uri>
-            <uri>model://everblock_green/materials/textures</uri>
-            <name>BlockGreen</name>
-          </script>
+          <!--<ambient>0 0.3 0 1</ambient>-->
+          <diffuse>0 0.3 0 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
+          <pbr>
+            <metal>
+              <!--<albedo_map>model://everblock_green/meshes/textures/everblock_green_albedo.png</albedo_map>-->
+              <roughness_map>model://everblock_green/meshes/textures/everblock_green_roughness.png</roughness_map>
+              <ambient_occlusion_map>model://everblock_green/meshes/textures/everblock_green_ao.png</ambient_occlusion_map>
+              <normal_map>model://everblock_green/meshes/textures/everblock_green_normal.png</normal_map>
+            </metal>
+          </pbr>
         </material>
       </visual>
     </link>
   </model>
 </sdf>
+<!-- vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : -->

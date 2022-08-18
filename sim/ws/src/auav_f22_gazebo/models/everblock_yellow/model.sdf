@@ -14,14 +14,21 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://everblock_yellow/meshes/block.dae</uri>
-            <scale>0.4572 0.4572 2.1336</scale>
+            <uri>model://everblock_yellow/meshes/everblock_yellow.dae</uri>
           </mesh>
         </geometry>
         <material>
           <ambient>1 1 0 1</ambient>
-          <diffuse>0.8 0.8 0 1</diffuse>
-          <specular>1 1 1 1</specular>
+          <diffuse>1 1 0 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
+          <pbr>
+            <metal>
+              <!--<albedo_map>model://everblock_yellow/meshes/textures/everblock_yellow_albedo.png</albedo_map>-->
+              <roughness_map>model://everblock_yellow/meshes/textures/everblock_yellow_roughness.png</roughness_map>
+              <ambient_occlusion_map>model://everblock_yellow/meshes/textures/everblock_yellow_ao.png</ambient_occlusion_map>
+              <normal_map>model://everblock_yellow/meshes/textures/everblock_yellow_normal.png</normal_map>
+            </metal>
+          </pbr>
         </material>
       </visual>
     </link>

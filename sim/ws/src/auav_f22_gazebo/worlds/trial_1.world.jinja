@@ -24,13 +24,33 @@
       </sky>
     </scene>
 
+    {% set light_spacing = 5 -%}
+    {%- set n_light_rows = 3 -%}
+    {%- set n_light_cols = 3 -%}
+    {%- for row in range(n_light_rows) -%}
+      {%- for col in range(n_light_cols) -%}
+        {% set x = light_spacing*(-n_light_rows/2 + row + 0.5) -%}
+        {% set y = light_spacing*(-n_light_cols/2 + col + 0.5) -%}
+        {% set id = row*n_light_rows + col %}
+    <light type="point" name="light{{id}}">
+      <pose>{{x}} {{y}} 15 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>0 0 -1</direction>
+    </light>
+      {%- endfor -%}
+    {%- endfor -%}
+
     {{ freenove_4wd(name='rover', pose=[0, 2, 0.04, 0, 0, 1.57], with_ball=True)|indent(4) }}
 
     {{ px4vision(name='drone', pose=[0, 0, 0.07, 0, 0, 1.57], mav_id=0, cam_angle=np.deg2rad(0))|indent(4) }}
-
-    <include>
-      <uri>model://sun</uri>
-    </include>
 
     <include>
       <pose>0 8 0 0 0 0</pose>
@@ -42,10 +62,12 @@
       <uri>model://sample_course_1</uri>
     </include>
 
+<!--
     <include>
       <pose>-3 -1 0 0 0 2.0</pose>
       <uri>model://person_standing</uri>
     </include>
+-->
 
   </world>
 </sdf>
