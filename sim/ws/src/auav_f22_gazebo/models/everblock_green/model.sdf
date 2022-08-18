@@ -18,8 +18,7 @@
           </mesh>
         </geometry>
         <material>
-          <!--<ambient>0 0.3 0 1</ambient>-->
-          <diffuse>0 0.3 0 1</diffuse>
+          <diffuse>0 0.2 0 1</diffuse>
           <specular>0.8 0.8 0.8 1</specular>
           <pbr>
             <metal>

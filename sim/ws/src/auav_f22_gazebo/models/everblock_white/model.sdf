@@ -18,9 +18,8 @@
           </mesh>
         </geometry>
         <material>
-          <ambient>1 1 1 1</ambient>
-          <diffuse>1 1 1 1</diffuse>
-          <specular>1 1 1 1</specular>
+          <diffuse>0.5 0.5 0.5 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
           <pbr>
             <metal>
               <!--<albedo_map>model://everblock_white/meshes/textures/everblock_white_albedo.png</albedo_map>-->

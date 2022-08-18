@@ -18,10 +18,9 @@
           </sphere>
         </geometry>
         <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Red</name>
-          </script>
+          <ambient>0.3 0 0 1</ambient>
+          <diffuse>0.3 0 0 1</diffuse>
+          <specular>0.8 0.8 0.8 1</specular>
         </material>
       </visual>
       <collision name="ball_collision">

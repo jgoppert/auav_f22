@@ -49,20 +49,6 @@
 </inertial>
 {%- endmacro -%}
 
-{%- macro mesh_colored(uri, color) -%}
-<geometry>
-  <mesh>
-    <uri>{{ uri }}</uri>
-  </mesh>
-</geometry>
-<material>
-  <script>
-    <name>Gazebo/{{ color }}</name>
-    <uri>file://media/materials/scripts/gazebo.material</uri>
-  </script>
-</material>
-{%- endmacro -%}
-
 {%- macro px4vision(name, pose, mav_id, cam_angle) -%}
 <model name="{{name}}">
   <pose>{{pose|join(' ') }}</pose>
@@ -71,7 +57,15 @@
     {{ inertial(fuse_m, fuse_ixx, fuse_iyy, fuse_izz)|indent(6) }}
 
     <visual name="fuselage_visual">
-      {{ mesh_colored("model://px4vision/meshes/px4vision.stl", "DarkGrey")|indent(8) }}
+      <geometry>
+        <mesh>
+          <uri>model://px4vision/meshes/px4vision.stl</uri>
+        </mesh>
+      </geometry>
+      <material>
+        <diffuse>0 0 0 1</diffuse>
+        <specular>0.5 0.5 0.5 1</specular>
+      </material>
     </visual>
 
     <collision name="fuselage_collision">
@@ -302,7 +296,15 @@
     <pose>{{ rtr_pos|join(' ') }} 0 0 0</pose>
     {{ inertial(rtr_m, rtr_ixx, rtr_iyy, rtr_izz)| indent(8) }}
     <visual name="rotor_{{n}}_visual">
-      {{ mesh_colored(prop_uri, "Grey")|indent(8) }}
+      <geometry>
+        <mesh>
+          <uri>{{prop_uri}}</uri>
+        </mesh>
+      </geometry>
+      <material>
+        <diffuse>0 0 0 1</diffuse>
+        <specular>0.2 0.2 0.2 1</specular>
+      </material>
     </visual>
 
     <collision name="rotor_{{n}}_collision">
