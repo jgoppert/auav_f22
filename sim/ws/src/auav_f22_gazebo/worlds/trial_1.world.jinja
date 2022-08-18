@@ -25,8 +25,8 @@
     </scene>
 
     {% set light_spacing = 12 -%}
-    {%- set n_light_rows = 5 -%}
-    {%- set n_light_cols = 5 -%}
+    {%- set n_light_rows = 3 -%}
+    {%- set n_light_cols = 3 -%}
     {%- for row in range(n_light_rows) -%}
       {%- for col in range(n_light_cols) -%}
         {% set x = light_spacing*(-n_light_rows/2 + row + 0.5) -%}
@@ -41,7 +41,7 @@
       <attenuation>
         <range>100</range>
         <constant>1</constant>
-        <linear>0.2</linear>
+        <linear>0.1</linear>
         <quadratic>0</quadratic>
       </attenuation>
       <direction>0 0 -1</direction>
@@ -52,6 +52,11 @@
     {{ freenove_4wd(name='rover', pose=[0, 2, 0.04, 0, 0, 1.57], with_ball=True)|indent(4) }}
 
     {{ px4vision(name='drone', pose=[0, 0, 0.07, 0, 0, 1.57], mav_id=0, cam_angle=np.deg2rad(0))|indent(4) }}
+
+    <include>
+      <pose>2 0 0 0 0 3.14</pose>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/foldable_chair</uri>
+    </include>
 
     <include>
       <pose>0 8 0 0 0 0</pose>
