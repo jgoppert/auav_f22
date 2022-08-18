@@ -149,35 +149,35 @@
   </joint>
   {% endif %}
 
-  <plugin name='p3d' filename='libgazebo_ros_p3d.so'>
-    <robotNamespace>{{name}}</robotNamespace>
-    <updateRate>10</updateRate>
-    <bodyName>base_link</bodyName>
-    <topicName>/qualisys/{{name}}/odom</topicName>
-    <frameName>map</frameName>
-    <xyzOffset>0 0 0</xyzOffset>
-    <rpyOffset>0 0 0</rpyOffset>
-  </plugin>
+  <!--<plugin name='p3d' filename='libgazebo_ros_p3d.so'>-->
+    <!--<robotNamespace>{{name}}</robotNamespace>-->
+    <!--<updateRate>10</updateRate>-->
+    <!--<bodyName>base_link</bodyName>-->
+    <!--<topicName>/qualisys/{{name}}/odom</topicName>-->
+    <!--<frameName>map</frameName>-->
+    <!--<xyzOffset>0 0 0</xyzOffset>-->
+    <!--<rpyOffset>0 0 0</rpyOffset>-->
+  <!--</plugin>-->
 
-  <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
-    <robotNamespace>{{name}}</robotNamespace>
-    <updateRate>100.0</updateRate>
-    <leftFrontJoint>front_left_joint</leftFrontJoint>
-    <rightFrontJoint>front_right_joint</rightFrontJoint>
-    <leftRearJoint>rear_left_joint</leftRearJoint>
-    <rightRearJoint>rear_right_joint</rightRearJoint>
-    <wheelSeparation>{{wheel_separation}}</wheelSeparation>
-    <wheelDiameter>{{wheel_diameter}}</wheelDiameter>
-    <robotBaseFrame>rover_ground_truth</robotBaseFrame>
-    <torque>0.3</torque>
-    <broadcastTF>false</broadcastTF>
-    <commandTopic>cmd_vel</commandTopic>
-    <odometryTopic>odom</odometryTopic>
-    <odometryFrame>map</odometryFrame>
-    <covariance_x>0.0001</covariance_x>
-    <covariance_y>0.0001</covariance_y>
-    <covariance_yaw>0.0001</covariance_yaw>
-  </plugin>
+  <!--<plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">-->
+    <!--<robotNamespace>{{name}}</robotNamespace>-->
+    <!--<updateRate>100.0</updateRate>-->
+    <!--<leftFrontJoint>front_left_joint</leftFrontJoint>-->
+    <!--<rightFrontJoint>front_right_joint</rightFrontJoint>-->
+    <!--<leftRearJoint>rear_left_joint</leftRearJoint>-->
+    <!--<rightRearJoint>rear_right_joint</rightRearJoint>-->
+    <!--<wheelSeparation>{{wheel_separation}}</wheelSeparation>-->
+    <!--<wheelDiameter>{{wheel_diameter}}</wheelDiameter>-->
+    <!--<robotBaseFrame>rover_ground_truth</robotBaseFrame>-->
+    <!--<torque>0.3</torque>-->
+    <!--<broadcastTF>false</broadcastTF>-->
+    <!--<commandTopic>cmd_vel</commandTopic>-->
+    <!--<odometryTopic>odom</odometryTopic>-->
+    <!--<odometryFrame>map</odometryFrame>-->
+    <!--<covariance_x>0.0001</covariance_x>-->
+    <!--<covariance_y>0.0001</covariance_y>-->
+    <!--<covariance_yaw>0.0001</covariance_yaw>-->
+  <!--</plugin>-->
 </model>
 {% endmacro -%}
 
