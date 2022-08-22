@@ -50,7 +50,7 @@
 </inertial>
 {% endmacro %}
 
-{%- macro axial_scx10(name, pose) -%}
+{%- macro axial_scx10(name, pose, with_ball) -%}
 <model name='{{ name }}'>
   <pose>{{pose|join(' ') }}</pose>
 
@@ -106,6 +106,18 @@
 
 
   </link>
+
+  {% if with_ball %}
+  <include>
+    <uri>model://red_ball</uri>
+  </include>
+
+  <joint name="red_ball_joint" type="fixed">
+    <pose>-0.2 0 0.2 0 0 0</pose>
+    <child>red_ball::link</child>
+    <parent>base_link</parent>
+  </joint>
+  {% endif %}
 
   {%- for data in wheel_data_list %}
   <link name="{{data.name}}_strut">
@@ -246,6 +258,6 @@
 {% endmacro -%}
 
 <sdf version="1.7">
-{{ axial_scx10(name='axial_scx10', pose=[0, 0, 0.15, 0, 0, 0]) }}
+{{ axial_scx10(name='axial_scx10', pose=[0, 0, 0.15, 0, 0, 0], with_ball=False) }}
 </sdf>
 <!-- vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : -->

@@ -360,23 +360,6 @@
   </plugin>
   {% endfor %}
 
-  <!--It is important that the imu plugin is the last one, as it is called the most often
-  plugins are called in reverse order.-->
-  <plugin filename="libignition-gazebo-imu-system.so"
-    name="ignition::gazebo::systems::Imu">
-    <robotNamespace/>
-    <linkName>base_link</linkName>
-    <imuTopic>/imu</imuTopic>
-    <gyroscopeNoiseDensity>0.00018665</gyroscopeNoiseDensity>
-    <gyroscopeRandomWalk>3.8785e-05</gyroscopeRandomWalk>
-    <gyroscopeBiasCorrelationTime>1000.0</gyroscopeBiasCorrelationTime>
-    <gyroscopeTurnOnBiasSigma>0.0087</gyroscopeTurnOnBiasSigma>
-    <accelerometerNoiseDensity>0.00186</accelerometerNoiseDensity>
-    <accelerometerRandomWalk>0.006</accelerometerRandomWalk>
-    <accelerometerBiasCorrelationTime>300.0</accelerometerBiasCorrelationTime>
-    <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
-  </plugin>
-
 </model>
 {%- endmacro -%}
 

@@ -1,4 +1,4 @@
-{%- from 'models/freenove_4wd/freenove_4wd.sdf.jinja' import freenove_4wd with context -%}
+{%- from 'models/axial_scx10/axial_scx10.sdf.jinja' import axial_scx10 with context -%}
 {%- from 'models/px4vision/px4vision.sdf.jinja' import px4vision with context -%}
 <?xml version="1.0"?> 
 <sdf version="1.7">
@@ -70,7 +70,7 @@
       {%- endfor -%}
     {%- endfor -%}
 
-    {{ freenove_4wd(name='rover', pose=[0, 2, 0.04, 0, 0, 1.57], with_ball=True)|indent(4) }}
+    {{ axial_scx10(name='rover', pose=[0, 2, 0.1, 0, 0, 1.57], with_ball=True)|indent(4) }}
 
     {{ px4vision(name='drone', pose=[0, 0, 0.07, 0, 0, 1.57], mav_id=0, cam_angle=np.deg2rad(0))|indent(4) }}
 
