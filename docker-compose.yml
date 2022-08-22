@@ -2,8 +2,8 @@ networks:
 
   # create a local network
   app_net:
+    driver: bridge
     ipam:
-      driver: default
       config:
         - subnet: "172.16.238.0/24"
 
@@ -79,7 +79,7 @@ services:
       dockerfile: px4/Dockerfile
     environment:
       - PX4_SIM_HOSTNAME=sim
-      - PX4_ONBOARD_HOSTNAME=onboard
+      - PX4_OFFBOARD_HOSTNAME=172.16.238.12
       - PX4_GCS_HOSTNAME= 172.16.238.3
       - DISPLAY=:1
       - PX4_SIM_MODEL=iris
@@ -89,7 +89,7 @@ services:
       # mount .git readwrite for development
       - ./.git:/home/docker/.git:rw
       # mount source readwrite for development
-      - ./px4/PX4-Autopilot:/home/docker/PX4-Autopilot:rw
+      - ./px4/PX4-Autopilot:/home/docker/px4/PX4-Autopilot:rw
       # mount scripts directory read only for development
       - ./px4/bin:/home/docker/bin:ro
     networks:
@@ -101,7 +101,8 @@ services:
     container_name: onboard
     hostname: onboard
     image: jgoppert/auav_f22_onboard:latest
-    command: terminator --geometry=800x500+0+0 -e ". ./install/setup.bash; ros2 launch auav_f22 sample.launch.py; read -p 'press enter to close'"
+    #command: bash -c ". ~/ws/install/setup.sh && ros2 launch auav_f22 sample.launch.py"
+    command: terminator --geometry=800x500+0+0 -e ". ~/ws/install/setup.sh; ros2 launch auav_f22 sample.launch.py; read -p 'press enter'"
     build:
       dockerfile: onboard/Dockerfile
     environment:
