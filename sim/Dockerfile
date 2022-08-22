@@ -7,7 +7,7 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   cmake \
   build-essential \
   ignition-fortress \
-  ros-foxy-ros-ign-gazebo \
+  ros-foxy-ros-ign \
   git \
   mesa-utils \
   libnvidia-gl-515-server \
@@ -53,5 +53,12 @@ ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
 
 # prevent terminator stderrr messages
 ENV NO_AT_BRIDGE=1
+
+# prevent terminator stderrr messages
+ENV NO_AT_BRIDGE=1
+ENV ROS2_WS /home/docker/ws
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
 
 # vim: set et fenc=utf-8 ff=unix ft=dockerfile sts=0 sw=2 ts=2 :
