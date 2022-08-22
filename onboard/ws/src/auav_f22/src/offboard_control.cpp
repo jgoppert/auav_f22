@@ -62,15 +62,15 @@ class OffboardControl : public rclcpp::Node {
 public:
 	OffboardControl() : Node("offboard_control") {
 		offboard_control_mode_publisher_ =
-			this->create_publisher<OffboardControlMode>("fmu/in/OffboardControlMode", 10);
+			this->create_publisher<OffboardControlMode>("OffboardControlMode_PubSubTopic", 10);
 		trajectory_setpoint_publisher_ =
-			this->create_publisher<TrajectorySetpoint>("fmu/in/TrajectorySetpoint", 10);
+			this->create_publisher<TrajectorySetpoint>("TrajectorySetpoint_PubSubTopic", 10);
 		vehicle_command_publisher_ =
-			this->create_publisher<VehicleCommand>("fmu/in/VehicleCommand", 10);
+			this->create_publisher<VehicleCommand>("VehicleCommand_PubSubTopic", 10);
 
 		// get common timestamp
 		timesync_sub_ =
-			this->create_subscription<px4_msgs::msg::Timesync>("fmu/out/Timesync", 10,
+			this->create_subscription<px4_msgs::msg::Timesync>("Timesync_PubSubTopic", 10,
 				[this](const px4_msgs::msg::Timesync::UniquePtr msg) {
 					timestamp_.store(msg->timestamp);
 				});
@@ -163,7 +163,9 @@ void OffboardControl::publish_offboard_control_mode() const {
 void OffboardControl::publish_trajectory_setpoint() const {
 	TrajectorySetpoint msg{};
 	msg.timestamp = timestamp_.load();
-	msg.position = {0.0, 0.0, -5.0};
+	msg.x = 0.0;
+	msg.y = 0.0;
+	msg.z = -5.0;
 	msg.yaw = -3.14; // [-PI:PI]
 
 	trajectory_setpoint_publisher_->publish(msg);

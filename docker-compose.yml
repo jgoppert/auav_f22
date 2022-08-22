@@ -20,7 +20,7 @@ services:
     container_name: sim
     hostname: sim
     image: jgoppert/auav_f22_sim:latest
-    command: terminator --geometry=800x500+800+0 -e ". ./install/setup.bash; ros2 launch auav_f22_gazebo sample.launch.py; read -p 'press enter to close'"
+    command: terminator --geometry=800x500+800+0 -e ". ./install/setup.bash; cd ~/ws; colcon build --symlink-install; ros2 launch auav_f22_gazebo sample.launch.py; read -p 'press enter to close'"
     build:
       dockerfile: sim/Dockerfile 
     environment:

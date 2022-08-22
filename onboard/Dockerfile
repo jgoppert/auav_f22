@@ -47,7 +47,7 @@ RUN . /opt/ros/foxy/setup.sh \
  && mkdir -p ~/px4_ros_com_ros2/src \
  && git clone https://github.com/PX4/px4_msgs.git ~/px4_ros_com_ros2/src/px4_msgs \
  && cd ~/px4_ros_com_ros2/src/px4_msgs \
- && git checkout e52b831 \
+ && git checkout 7ff28b17 \
  && cd ~/px4_ros_com_ros2 \
  && colcon build --symlink-install --event-handlers console_direct+
 
@@ -56,7 +56,7 @@ RUN . /opt/ros/foxy/setup.sh \
 RUN . ~/px4_ros_com_ros2/install/setup.sh \
  && git clone https://github.com/PX4/px4_ros_com.git ~/px4_ros_com_ros2/src/px4_ros_com \
  && cd ~/px4_ros_com_ros2/src/px4_ros_com \
- && git checkout 41f93ae \
+ && git checkout 2a9738f \
  && cd ~/px4_ros_com_ros2 \
  && colcon build --symlink-install --event-handlers console_direct+
 

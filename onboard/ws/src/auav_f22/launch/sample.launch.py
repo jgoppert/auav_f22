@@ -10,14 +10,14 @@ def generate_launch_description():
         #    output='log'
         #),
         ExecuteProcess(
-            cmd='micrortps_agent -t UDP'.split(' '),
+            cmd='micrortps_agent -t UDP -i 172.16.238.11'.split(' '),
             output='screen',
             shell=True,
         ),
-        Node(
-            package='auav_f22',
-            executable='offboard',
-            name='offboard',
-            output='screen'
-        ),
+        #Node(
+        #    package='auav_f22',
+        #    executable='offboard',
+        #    name='offboard',
+        #    output='screen'
+        #),
     ])
