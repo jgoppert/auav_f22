@@ -7,7 +7,12 @@ RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
   cmake \
   build-essential \
   ignition-fortress \
-  ros-foxy-ros-ign \
+  ros-foxy-compressed-depth-image-transport \
+  ros-foxy-compressed-image-transport \
+  ros-foxy-image-transport-plugins \
+  ros-foxy-ros-ign-bridge \
+  ros-foxy-ros-ign-gazebo-demos \
+  ros-foxy-ros-ign-image \
   git \
   mesa-utils \
   libnvidia-gl-515-server \

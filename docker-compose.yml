@@ -20,7 +20,7 @@ services:
     container_name: sim
     hostname: sim
     image: jgoppert/auav_f22_sim:latest
-    command: terminator --geometry=800x500+800+0 -e ". ./install/setup.bash; cd ~/ws; colcon build --symlink-install; ros2 launch auav_f22_gazebo sample.launch.py; read -p 'press enter to close'"
+    command: terminator --geometry=800x500+0+0 -e ". /opt/ros/foxy/setup.sh; colcon build --symlink-install --event-handler console_direct+; . ./install/setup.sh; ros2 launch auav_f22_gazebo sample.launch.py; read -p 'press enter'"
     build:
       dockerfile: sim/Dockerfile 
     environment:
@@ -102,7 +102,7 @@ services:
     hostname: onboard
     image: jgoppert/auav_f22_onboard:latest
     #command: bash -c ". ~/ws/install/setup.sh && ros2 launch auav_f22 sample.launch.py"
-    command: terminator --geometry=800x500+0+0 -e ". ~/ws/install/setup.sh; ros2 launch auav_f22 sample.launch.py; read -p 'press enter'"
+    command: terminator --geometry=800x500+0+0 -e ". ~/px4_ros_com_ros2/install/setup.sh; colcon build --symlink-install --event-handler console_direct+; . ./install/setup.sh; ros2 launch auav_f22 sample.launch.py; read -p 'press enter'"
     build:
       dockerfile: onboard/Dockerfile
     environment:
