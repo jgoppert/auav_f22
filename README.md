@@ -32,16 +32,20 @@ This repository consists of 4 docker containers and several source directories.
 * auav_f22_onboard: Onboard computer running ROS, made modifications here.
 
 ## Clone git submodules
+Before you can build the PX4 Firmware, you will need to clone the submodule. Recursive clone is not
+necessary here as the PX4 makefile automatically handles this.
 ```bash
 git submodule update --init
 ```
 
 ## Pull
+You do not need to build the images. You can download them from dockerhub with the pull command.
 ```bash
 docker compose pull
 ```
 
 ## Run
+To start the simulation, run the following command:
 ```bash
 docker compose up
 ```
@@ -53,7 +57,8 @@ docker compose build
 ```
 
 ## Connect to Running Container
-
+If you want to login to a running container you can use. Note that we are starting
+all containers using terminator, and you can split the window to get a new console.
 ```bash
 docker compose exec onboard bash
 ```
