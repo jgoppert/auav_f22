@@ -12,6 +12,12 @@ This repository consists of 4 docker containers and several source directories.
 The source directories: sim/ws/src, onboard/ws/src are mounted inside the docker images. This allows for
 rapid development. We recommend that you do all git version control commands on your host machine.
 
+## Safety Requirements
+* Your control code should never arm the vehicle or switch the mode during the competition.
+* A manual pilot will set the mode switch and arm your vehicle.
+* You must demonstrate kill switch functionality for your vehicle.
+You can test out these safety procedures by manually setting the mode and arming in QGroundControl.
+
 ## Hardware Requirements
 * Ubuntu 22.04 host computer
 * NVidia graphics card
