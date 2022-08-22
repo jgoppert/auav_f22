@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/jgoppert/git/auav_f22'
-make: Leaving directory '/home/jgoppert/git/auav_f22'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
