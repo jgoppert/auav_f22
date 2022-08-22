@@ -4,27 +4,23 @@
 * auav_f22_px4: PX4 Autopilot
 * auav_f22_onboard: Onboard computer
 
-## build
+## Clone git submodules
+```bash
+git submodule update --init
+```
+
+## Build
 ```bash
 docker compose build
 ```
-## run
 
+## Run
 ```bash
 docker compose up
 ```
-## connect to running container
+
+## Connect to Running Container
 
 ```bash
 docker compose exec onboard bash
 ```
-
-## troubleshooting
-
-If window dragging is slow in ubuntu 22.04 on your host add
-
-```bash
-export __GL_SYNC_TO_VBLANK=0
-```
-
-To your /etc/environment.
