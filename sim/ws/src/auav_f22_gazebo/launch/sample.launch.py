@@ -27,7 +27,10 @@ def generate_launch_description():
         arguments=[
             '/rgbd_camera/image@sensor_msgs/msg/Image@ignition.msgs.Image',
             '/rgbd_camera/depth_image@sensor_msgs/msg/Image@ignition.msgs.Image',
-            '/rgbd_camera/points@sensor_msgs/msgs/PointCloud2@ignition.msgs.PointCloudPacked'],
+            '/rgbd_camera/points@sensor_msgs/msgs/PointCloud2@ignition.msgs.PointCloudPacked',
+            '/rover/cmd_vel@geometry_msgs/Twist@ignition.msgs.Twist',
+            '/rover/odom@nav_msgs/Odometry@ignition.msgs.Odometry'
+        ],
         output='screen'
     )
 
