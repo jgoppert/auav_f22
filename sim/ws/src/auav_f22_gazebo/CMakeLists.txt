@@ -88,7 +88,7 @@ install(
     #ign
     launch
     models
-    #rviz
+    rviz
     worlds
   DESTINATION
     share/${PROJECT_NAME}/
