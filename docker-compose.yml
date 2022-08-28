@@ -114,4 +114,23 @@ services:
       app_net:
         ipv4_address: 172.16.238.12
 
+  # grader
+  grader:
+    container_name: grader
+    hostname: grader
+    image: jgoppert/auav_f22_grader:latest
+    #command: bash -c ". ~/ws/install/setup.sh && ros2 launch auav_f22 sample.launch.py"
+    command: terminator --geometry=800x500+0+0 -e ". ~/px4_ros_com_ros2/install/setup.sh && colcon build --symlink-install --event-handler console_direct+ && . ./install/setup.sh && ros2 launch auav_f22_grader grade.launch.py; read -p 'press enter'"
+    build:
+      dockerfile: onboard/Dockerfile
+    environment:
+      - DISPLAY=:1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - $PWD/grader/ws:/home/docker/ws:rw
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.13
+
+
 #  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=4 : 
