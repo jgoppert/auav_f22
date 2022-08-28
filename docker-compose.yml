@@ -24,7 +24,7 @@ services:
     build:
       dockerfile: sim/Dockerfile 
     environment:
-      - DISPLAY=:1
+      - DISPLAY=${DISPLAY}
       - IGN_GAZEBO_SYSTEM_PLUGIN_PATH=/usr/lib
       - IGN_GAZEBO_RESOURCE_PATH=/usr/share/mavlink_sitl_ign_gazebo/models
       # PURT, lat, lon, alt
@@ -60,7 +60,7 @@ services:
       dockerfile: gcs/Dockerfile
     privileged: true
     environment:
-      - DISPLAY=:1
+      - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       # create a persistant named volume to remember qgc settings
@@ -81,7 +81,7 @@ services:
       - PX4_SIM_HOSTNAME=sim
       - PX4_OFFBOARD_HOSTNAME=172.16.238.12
       - PX4_GCS_HOSTNAME= 172.16.238.3
-      - DISPLAY=:1
+      - DISPLAY=${DISPLAY}
       - PX4_SIM_MODEL=iris
     volumes:
       # pass through for X11
@@ -106,7 +106,7 @@ services:
     build:
       dockerfile: onboard/Dockerfile
     environment:
-      - DISPLAY=:1
+      - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - $PWD/onboard/ws:/home/docker/ws:rw
@@ -116,6 +116,8 @@ services:
 
   # grader
   grader:
+    profiles:
+        - donotstart
     container_name: grader
     hostname: grader
     image: jgoppert/auav_f22_grader:latest
@@ -124,7 +126,7 @@ services:
     build:
       dockerfile: onboard/Dockerfile
     environment:
-      - DISPLAY=:1
+      - DISPLAY=${DISPLAY}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - $PWD/grader/ws:/home/docker/ws:rw
