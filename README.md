@@ -1,4 +1,4 @@
-# IEEE Fall 2022 Autonomous UAV (AUAV) Competition Containers
+# IEEE 2023 UAV Chase Challenge
 
 ## Submission
 To write your solutions, fork this repository.
