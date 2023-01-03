@@ -18,7 +18,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_ign_gazebo, 'launch', 'ign_gazebo.launch.py')),
         launch_arguments={
-            'ign_args': '-v 4 -r trial_1.world --gui-config /home/docker/.ignition/gazebo/6/gui.config'
+            'ign_args': '-v 4 -r trial_1.world --gui-config ~/.ignition/gazebo/6/gui.config'
         }.items(),
     )
 

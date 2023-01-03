@@ -22,7 +22,7 @@ services:
     image: jgoppert/auav_f22_sim:latest
     command: terminator --geometry=800x500+800+0 -e ". /opt/ros/foxy/setup.sh && colcon build --symlink-install --event-handler console_direct+ && . ./install/setup.sh && ros2 launch auav_f22_gazebo sample.launch.py; read -p 'press enter'"
     build:
-      dockerfile: sim/Dockerfile 
+      context: sim
     environment:
       - DISPLAY=${DISPLAY}
       - IGN_GAZEBO_SYSTEM_PLUGIN_PATH=/usr/lib
@@ -36,7 +36,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ignition_config:/home/docker/.ignition
-      - $PWD/sim/ws:/home/docker/ws:rw
+      - $PWD/sim/ws:/workdir:rw
     privileged: true
     deploy:
       resources:
@@ -57,7 +57,7 @@ services:
     # run qgc hiding output
     command: bash -c "./QGroundControl.AppImage 2> /dev/null"
     build:
-      dockerfile: gcs/Dockerfile
+      context: gcs
     privileged: true
     environment:
       - DISPLAY=${DISPLAY}
@@ -76,6 +76,7 @@ services:
     image: jgoppert/auav_f22_px4:latest
     command: terminator --geometry=800x500+0+500 -e "px4_build.sh && px4_start.sh; read -p 'press enter to close'"
     build:
+      context: .
       dockerfile: px4/Dockerfile
     environment:
       - PX4_SIM_HOSTNAME=sim
@@ -104,7 +105,7 @@ services:
     #command: bash -c ". ~/ws/install/setup.sh && ros2 launch auav_f22 sample.launch.py"
     command: terminator --geometry=800x500+0+0 -e ". ~/px4_ros_com_ros2/install/setup.sh && colcon build --symlink-install --event-handler console_direct+ && . ./install/setup.sh && ros2 launch auav_f22 sample.launch.py; read -p 'press enter'"
     build:
-      dockerfile: onboard/Dockerfile
+      context: onboard
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
@@ -124,7 +125,7 @@ services:
     #command: bash -c ". ~/ws/install/setup.sh && ros2 launch auav_f22 sample.launch.py"
     command: terminator --geometry=800x500+0+0 -e ". ~/px4_ros_com_ros2/install/setup.sh && colcon build --symlink-install --event-handler console_direct+ && . ./install/setup.sh && ros2 launch auav_f22_grader grade.launch.py; read -p 'press enter'"
     build:
-      dockerfile: onboard/Dockerfile
+      context: grader
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
