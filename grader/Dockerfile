@@ -23,7 +23,7 @@ WORKDIR /home/docker/ws
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc \
   && echo "source /home/docker/ws/install/setup.bash" >> ~/.bashrc
 
-RUN colcon build --symlink-install --event-handlers console_direct+
+RUN sudo colcon build --symlink-install --event-handlers console_direct+
 
 RUN mkdir -p /tmp/runtime-docker && chmod 700 /tmp/runtime-docker
 ENV XDG_RUNTIME_DIR=/tmp/runtime-docker
