@@ -1,0 +1,26 @@
+diff --git a/docker-compose.yml b/docker-compose.yml
+index f16b801..326560f 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -38,13 +38,8 @@ services:
+       - ignition_config:/home/docker/.ignition
+       - $PWD/sim/ws:/workdir:rw
+     privileged: true
+-    deploy:
+-      resources:
+-        reservations:
+-          devices:
+-            - driver: nvidia
+-              count: 1
+-              capabilities: [gpu]
++
++
+     networks:
+       app_net:
+         ipv4_address: 172.16.238.2
+@@ -136,4 +131,4 @@ services:
+         ipv4_address: 172.16.238.13
+ 
+ 
+-#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=4 : 
++#  vim: set et fenc=utf-8 ff=unix sts=2 sw=2 ts=4 :
